@@ -1,12 +1,12 @@
 .number-btn {
-    display: flex;
-    flex: 1;
-    height: 4em;
+    height: 3em;
     font-size: 1.5em;
     font-weight: normal;
-    color: #00C64A;
+    color: black;
     background-color: white;
     outline: 1px solid black;
     justify-content: center;
     align-items: center;
+    display: flex;
+    flex: 1;
 }

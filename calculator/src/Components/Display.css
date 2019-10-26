@@ -1,8 +1,6 @@
 .display {
-    display: flex;
-    flex: 1;
-    height: 4em;
-    font-size: 1.5em;
+    height: 2em;
+    font-size: 1.75em;
     font-weight: normal;
     color: #00C64A;
     background-color: black;
@@ -10,4 +8,7 @@
     justify-content: flex-end;
     align-items: center;
     padding: 0.5em;
+    display: flex;
+    flex: 1;
+
 }

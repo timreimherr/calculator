@@ -25,29 +25,43 @@ class App extends React.Component {
     (val === "." && this.state.input === ".")){
       return;
     }
-    if (this.state.hasCalculated){
-      this.setState({ input: val, hasCalculated: false });
+    if ((this.state.hasCalculated && val !== "÷") ||
+    (this.state.hasCalculated && val !== "÷") ||
+    (this.state.hasCalculated && val !== "÷") ||
+    (this.state.hasCalculated && val !== "÷")){
+      return;
     }
-    else{
-      this.setState({ input: this.state.input + val});
-    }
+    this.setState({ input: this.state.input + val});
   }
   
   enterClear = val => {
-    this.setState({ input: ""});
+    this.setState({ input: "", hasCalculated: false});
   }
 
   backSpace = val => {
-    let currentInput = this.state.input;
-    let newInput = currentInput.slice(0, -1);
-    this.setState({input: newInput });
+    if (this.state.hasCalculated){
+      this.setState({ input: "", hasCalculated: false})
+    }
+    else{
+      let currentInput = this.state.input;
+      let newInput = currentInput.slice(0, -1);
+      this.setState({input: newInput });  
+    }
   }
 
   enterEqual = val => {
-    if (this.state.input !== "" && this.state.hasCalculated === false){
-      let currentInput = this.state.input;
-      let finalEquation = currentInput.replace("÷", "/");
-      this.setState({ input: math.evaluate(finalEquation), hasCalculated: true});
+    let currentInput = this.state.input;
+    if (this.state.input !== "") {
+      if (currentInput.includes("÷")){
+        currentInput = currentInput.replace("÷", "/");
+        this.setState({ input: math.evaluate(currentInput), hasCalculated: true});
+      } else if (currentInput.includes("x")){
+        currentInput = currentInput.replace("x", "*");
+        this.setState({ input: math.evaluate(currentInput), hasCalculated: true});
+      }
+      else{
+        this.setState({ input: math.evaluate(currentInput), hasCalculated: true});
+      }
     }
   }
 
