@@ -1,5 +1,5 @@
 import React from 'react';
-import './NumberButton.css'
+import './NumberButton.css';
 
 function NumberButton(props) {
     return (
