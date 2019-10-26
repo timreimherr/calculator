@@ -3,7 +3,7 @@ import './OperatorButton.css';
 
 function OperatorButton(props) {
     return (
-        <div className="operator-btn">
+        <div className="operator-btn" onClick={() => props.handleClick(props.children)}>
             {props.children}
         </div>
     );
