@@ -3,6 +3,7 @@ import './App.css';
 import NumberButton from './Components/NumberButton';
 import OperatorButton from './Components/OperatorButton';
 import Display from './Components/Display';
+import * as math from 'mathjs';
 
 
 
@@ -10,11 +11,26 @@ class App extends React.Component {
   constructor(props){
     super(props);
 
-    this.state = { input: "" };
+    this.state = { 
+      input: "",
+      hasCalculated: false
+     };
   }
 
   enterInput = val => {
-    this.setState({ input: this.state.input + val });
+    if ((val === "÷" && this.state.input === "") ||
+    (val === "x" && this.state.input === "") ||
+    (val === "+" && this.state.input === "") ||
+    (val === "-" && this.state.input === "") ||
+    (val === "." && this.state.input === ".")){
+      return;
+    }
+    if (this.state.hasCalculated){
+      this.setState({ input: val, hasCalculated: false });
+    }
+    else{
+      this.setState({ input: this.state.input + val});
+    }
   }
   
   enterClear = val => {
@@ -22,8 +38,17 @@ class App extends React.Component {
   }
 
   backSpace = val => {
-    let newInput = this.state.input.slice(0, -1);
+    let currentInput = this.state.input;
+    let newInput = currentInput.slice(0, -1);
     this.setState({input: newInput });
+  }
+
+  enterEqual = val => {
+    if (this.state.input !== "" && this.state.hasCalculated === false){
+      let currentInput = this.state.input;
+      let finalEquation = currentInput.replace("÷", "/");
+      this.setState({ input: math.evaluate(finalEquation), hasCalculated: true});
+    }
   }
 
   render() {
@@ -51,13 +76,13 @@ class App extends React.Component {
           <NumberButton handleClick={this.enterInput}>1</NumberButton>
           <NumberButton handleClick={this.enterInput}>2</NumberButton>
           <NumberButton handleClick={this.enterInput}>3</NumberButton>
-          <OperatorButton>+</OperatorButton>
+          <OperatorButton handleClick={this.enterInput}>-</OperatorButton>
         </div>
         <div className="row">
           <OperatorButton handleClick={this.enterInput}>.</OperatorButton>
           <NumberButton handleClick={this.enterInput}>0</NumberButton>
           <OperatorButton handleClick={this.enterInput}>+</OperatorButton>
-          <OperatorButton>=</OperatorButton>
+          <OperatorButton handleClick={this.enterEqual}>=</OperatorButton>
         </div>
       </div>
     </div>
