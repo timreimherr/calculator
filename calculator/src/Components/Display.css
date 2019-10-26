@@ -1,11 +1,11 @@
-.number-btn {
+.display {
     display: flex;
     flex: 1;
     height: 5em;
     font-size: 1.5em;
     font-weight: normal;
     color: #00C64A;
-    background-color: white;
+    background-color: black;
     outline: 1px solid black;
     justify-content: center;
     align-items: center;

@@ -3,10 +3,10 @@
     flex: 1;
     height: 5em;
     font-size: 1.5em;
-    font-weight: normal;
-    color: black;
-    background-color:#B2D971;
-    outline: 1px solid #00C64A;
+    font-weight: bold;
+    color:#00C64A;
+    background-color: #BAF7BA;
+    outline: 1px solid black;
     justify-content: center;
     align-items: center;
 }
