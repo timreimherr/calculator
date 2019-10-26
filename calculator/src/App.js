@@ -16,12 +16,25 @@ class App extends React.Component {
   enterInput = val => {
     this.setState({ input: this.state.input + val });
   }
+  
+  enterClear = val => {
+    this.setState({ input: ""});
+  }
+
+  backSpace = val => {
+    let newInput = this.state.input.slice(0, -1);
+    this.setState({input: newInput });
+  }
 
   render() {
   return (
     <div className="App">
       <div className="calculator-wrapper">
         <Display input={this.state.input}></Display>
+        <div className="row">
+          <OperatorButton handleClick={this.enterClear}>Clear</OperatorButton>
+          <OperatorButton handleClick={this.backSpace}>Back Space</OperatorButton>
+        </div>
         <div className="row">
           <NumberButton handleClick={this.enterInput}>7</NumberButton>
           <NumberButton handleClick={this.enterInput}>8</NumberButton>
