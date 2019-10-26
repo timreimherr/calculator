@@ -14,11 +14,7 @@ class App extends React.Component {
     this.state = { 
       input: "",
       hasCalculated: false,
-      equations: [
-        { "id": 1, "text": "5+5 = 10"},
-        { "id": 1, "text": "6+6 = 12"},
-        { "id": 1, "text": "7+7 = 14"}
-      ]
+      equations: []
      };
   }
 
