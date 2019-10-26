@@ -4,8 +4,8 @@ import NumberButton from './Components/NumberButton';
 import OperatorButton from './Components/OperatorButton';
 import Display from './Components/Display';
 import * as math from 'mathjs';
-
-
+import fire from './fire';
+import EquationDisplay from './Components/EquationDisplay';
 
 class App extends React.Component {
   constructor(props){
@@ -13,8 +13,21 @@ class App extends React.Component {
 
     this.state = { 
       input: "",
-      hasCalculated: false
+      hasCalculated: false,
+      equations: [
+        { "id": 1, "text": "5+5 = 10"},
+        { "id": 1, "text": "6+6 = 12"},
+        { "id": 1, "text": "7+7 = 14"}
+      ]
      };
+  }
+
+  componentDidMount(){
+    let equationsRef = fire.database().ref('equations').orderByKey().limitToLast(10);
+    equationsRef.on('child_added', snapshot => {
+      let equation = { text: snapshot.val(), id: snapshot.key };
+      this.setState({ equations: [equation].concat(this.state.equations)});
+    })
   }
 
   enterInput = val => {
@@ -50,18 +63,22 @@ class App extends React.Component {
   }
 
   enterEqual = val => {
-    let currentInput = this.state.input;
+
     if (this.state.input !== "") {
-      if (currentInput.includes("÷")){
+      let currentInput = this.state.input;
+      let evalResult;
+      let equation;
+
+      if (currentInput.includes("÷")) {
         currentInput = currentInput.replace("÷", "/");
-        this.setState({ input: math.evaluate(currentInput), hasCalculated: true});
       } else if (currentInput.includes("x")){
         currentInput = currentInput.replace("x", "*");
-        this.setState({ input: math.evaluate(currentInput), hasCalculated: true});
       }
-      else{
-        this.setState({ input: math.evaluate(currentInput), hasCalculated: true});
-      }
+      evalResult = math.evaluate(currentInput);
+      equation = currentInput + " = " + evalResult;
+
+      fire.database().ref('equations').push(equation);
+      this.setState({ input: evalResult, hasCalculated: true});
     }
   }
 
@@ -97,6 +114,9 @@ class App extends React.Component {
           <NumberButton handleClick={this.enterInput}>0</NumberButton>
           <OperatorButton handleClick={this.enterInput}>+</OperatorButton>
           <OperatorButton handleClick={this.enterEqual}>=</OperatorButton>
+        </div>
+        <div className="row">
+          <EquationDisplay equations={this.state.equations}></EquationDisplay>
         </div>
       </div>
     </div>
