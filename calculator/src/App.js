@@ -21,8 +21,8 @@ class App extends React.Component {
   componentDidMount(){
     let equationsRef = fire.database().ref('equations').orderByKey().limitToLast(10);
     equationsRef.on('child_added', snapshot => {
-      let equation = { text: snapshot.val(), id: snapshot.key };
-      this.setState({ equations: [equation].concat(this.state.equations)});
+      // let equation = { text: snapshot.val(), id: snapshot.key };
+      this.setState({ equations: equationsRef.orderByKey().limitToLast(10)});
     })
   }
 
