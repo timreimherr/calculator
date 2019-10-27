@@ -21,8 +21,14 @@ class App extends React.Component {
   componentDidMount(){
     let equationsRef = fire.database().ref('equations').orderByKey().limitToLast(10);
     equationsRef.on('child_added', snapshot => {
-      // let equation = { text: snapshot.val(), id: snapshot.key };
-      this.setState({ equations: equationsRef.orderByKey().limitToLast(10)});
+      let equation = { text: snapshot.val(), id: snapshot.key };
+      if (this.state.equations.length === 10){
+        let currentEquations = this.state.equations.slice(0,-1);
+        currentEquations = [equation].concat(currentEquations)
+        this.setState({ equations: currentEquations});
+      } else {
+        this.setState({ equations: [equation].concat(this.state.equations)});
+      }
     })
   }
 
@@ -45,7 +51,7 @@ class App extends React.Component {
     (this.state.hasCalculated && val === "1") ||
     (this.state.hasCalculated && val === "0")
     ){
-      return;
+      this.setState({ input: val, hasCalculated: false })
     }
     else {
     this.setState({ input: this.state.input + val, hasCalculated: false});
