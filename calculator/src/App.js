@@ -27,20 +27,29 @@ class App extends React.Component {
   }
 
   enterInput = val => {
+    
     if ((val === "÷" && this.state.input === "") ||
     (val === "x" && this.state.input === "") ||
     (val === "+" && this.state.input === "") ||
     (val === "-" && this.state.input === "") ||
     (val === "." && this.state.input === ".")){
       return;
-    }
-    if ((this.state.hasCalculated && val !== "÷") ||
-    (this.state.hasCalculated && val !== "÷") ||
-    (this.state.hasCalculated && val !== "÷") ||
-    (this.state.hasCalculated && val !== "÷")){
+    } else if ((this.state.hasCalculated && val === "9") ||
+    (this.state.hasCalculated && val === "8") ||
+    (this.state.hasCalculated && val === "7") ||
+    (this.state.hasCalculated && val === "6") ||
+    (this.state.hasCalculated && val === "5") ||
+    (this.state.hasCalculated && val === "4") ||
+    (this.state.hasCalculated && val === "3") ||
+    (this.state.hasCalculated && val === "2") ||
+    (this.state.hasCalculated && val === "1") ||
+    (this.state.hasCalculated && val === "0")
+    ){
       return;
     }
-    this.setState({ input: this.state.input + val});
+    else {
+    this.setState({ input: this.state.input + val, hasCalculated: false});
+    }
   }
   
   enterClear = val => {
